@@ -1,0 +1,5 @@
+<Page navigatingTo="navigatingTo">
+    <StackLayout>
+        <Label text="Sacola"/>
+    </StackLayout>
+</Page>

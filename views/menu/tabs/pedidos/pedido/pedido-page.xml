@@ -1,0 +1,6 @@
+<Page navigatingTo="navigatingTo" loaded="{{ loaded }}" class="page t-md" >
+	<Page.actionBar><ActionBar title="" class="bg-red" /></Page.actionBar>
+	<StackLayout class="m-x-15">
+		<Label text="{{ pedido.id_pedido }}" />
+	</StackLayout>
+</Page>

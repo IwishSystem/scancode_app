@@ -1,0 +1,47 @@
+<Page navigatingTo="navigatingTo" loaded="{{ loaded }}">
+	<Page.actionBar><ActionBar title="" class="bg-red" /></Page.actionBar>
+	<DockLayout>
+		<StackLayout>
+			<FlexboxLayout justifyContent="center" alignItems="center" class="h-full" flexDirection="column" visibility="{{ !produto ? 'visible' : 'collapsed' }}" >
+				<Label text="Carregando produto" class="red" />
+				<ActivityIndicator class="activity-indicator red m-10" busy="true"></ActivityIndicator>
+			</FlexboxLayout>
+			<ScrollView visibility="{{ produto ? 'visible' : 'collapsed' }}" orientation="vertical" scrollBarIndicatorVisible="false">
+				<StackLayout>
+					<StackLayout class="border p-10 m-x-10 m-t-5">
+						<Image src="{{ $parents['Page'].url  + produto.imagem, $parents['Page'].url + produto.imagem }}" stretch="aspectFit"  />
+					</StackLayout>
+					<Label text="{{'SKU: '+produto.codigo}}" class="t-lg font-weight-normal m-x-10" />
+					<Label text="{{ produto.descricao }}" class="t-md font-weight-thin m-x-10" />
+					<DockLayout class="m-x-10">
+						<StackLayout dock="right" class="border-b border-l p-x-10 text-left">
+							<Label text="ipi" class="t-8 font-weight-bold" />
+							<Label text="{{ produto.ipi+'%' }}" class="t-lg font-weight-thin" />
+						</StackLayout>
+						<StackLayout dock="left">
+							<Label text="valor" class="t-8 font-weight-bold" />
+							<Label text="{{ produto.preco }}" class="t-lg font-weight-thin" />
+						</StackLayout>
+					</DockLayout>
+					<DockLayout class="bg-gray-light p-x-10 p-y-5 m-t-10">
+						<StackLayout dock="left" class="text-center">
+							<Label text="Quantidade Minima" class="t-8 font-weight-bold" />
+							<Label text="{{ produto.qtd_min }}" class="t-lg font-weight-thin" />
+						</StackLayout>
+						<StackLayout dock="right" class="text-center">
+							<Label text="Estoque Futuro" class="t-8 font-weight-bold" />
+							<Label text="{{ produto.produto_estoque.disponivel_futuro }}" class="t-lg font-weight-thin" />
+						</StackLayout>
+						<StackLayout  class="text-center">
+							<Label text="Estoque Atual" class="t-8 font-weight-bold" />
+							<Label text="{{ produto.produto_estoque.disponivel_atual }}" class="t-lg font-weight-thin" />
+						</StackLayout>
+					</DockLayout>
+					<StackLayout visibility="{{ pedido_item ? 'visible' : 'collapsed' }}" class="m-y-10 m-x-10 form">
+						<TextView text="{{ observacao }}" class="input input-rounded t-sm" style="height:150" hint="Obervacao..." />
+					</StackLayout>
+				</StackLayout>
+			</ScrollView>
+		</StackLayout>
+	</DockLayout>
+</Page>

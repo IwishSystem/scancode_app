@@ -1,0 +1,16 @@
+<Page actionBarHidden="true" class="page" navigatingTo="navigatingTo" >
+	<TabView id="tabViewContainer" androidTabsPosition="bottom" selectedIndexChanged="{{ changed }}" tabBackgroundColor="white" selectedTabTextColor="#ee3344" >
+		<TabViewItem title="Home" iconSource="{{ home }}">
+			<Frame defaultPage="views/menu/tabs/home/home-page" id="home_frame" />
+		</TabViewItem>
+		<TabViewItem title="Pedidos" iconSource="{{ pedidos }}">
+			<Frame defaultPage="views/menu/tabs/pedidos/pedidos-page" id="pedidos_frame" />
+		</TabViewItem>
+		<TabViewItem title="Sacola" iconSource="{{ sacola }}">
+			<Frame defaultPage="views/menu/tabs/sacola/sacola-page" id="sacola_frame" />
+		</TabViewItem>
+		<TabViewItem title="Loja" iconSource="{{ loja }}">
+			<Frame defaultPage="views/menu/tabs/loja/loja-page" id="loja_frame" />
+		</TabViewItem>
+	</TabView>
+</Page>
