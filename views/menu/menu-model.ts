@@ -7,9 +7,11 @@ export class MenuModel extends Observable {
     public pedidos: string;
     public sacola: string;
     public loja: string;
+    //public tabSelectedIndex: number;
 
     constructor() {
         super();
+        //this.set("tabSelectedIndex", 2);
         this.set("home", "res://home2");
         this.set("pedidos", 'res://pedido1');
         this.set("sacola", 'res://sacola1');

@@ -1,4 +1,4 @@
-<Page navigatingTo="navigatingTo" actionBarHidden="true" class="page">
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" actionBarHidden="true" class="page">
  <StackLayout class="m-10 p-t-20"> 
     <StackLayout width="90" height="90" class="m-r-20" verticalAlignment="center">
         <Image  src="res://logo" stretch="aspectFit" />

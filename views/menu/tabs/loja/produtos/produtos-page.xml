@@ -1,4 +1,4 @@
-<Page navigatingTo="navigatingTo" loaded="{{ loaded }}" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:PullRefresh="nativescript-pulltorefresh">
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="{{ loaded }}" xmlns:PullRefresh="nativescript-pulltorefresh">
 	<Page.actionBar><ActionBar title="" class="bg-red" /></Page.actionBar>
 	<StackLayout class="m-x-10 m-t-5">
 		<Label text="Produtos " class="h1 font-weight-thin" />
@@ -19,7 +19,7 @@
 									<Label text="{{ descricao }}" class="t-md font-weight-thin" />
 									<Label text="{{ codigo }}" class="t-sm font-weight-normal" /> 
 								</StackLayout>
-								<Label text="{{ preco }}" dock="bottom" class="t-lg red" />
+								<Label text="{{ preco  | concurrency }}" dock="bottom" class="t-lg red" />
 							</DockLayout>
 						</StackLayout>
 					</StackLayout>

@@ -27,8 +27,10 @@ export class ProdutoModel extends Observable {
 
     public loaded(args){
         var page = args.object.page;
-
-        if(this.produto){
+        console.log(this.produto);
+        console.log('vai??');
+        if(!this.produto){
+            console.log('carregar produto');
             axios.get(cache.getString("api") +'/produtos/'+this.id_produto, {auth: {username: cache.getString('login'), password: cache.getString('senha')}}).then(
                 result => {
                     if(result.status == 200) {

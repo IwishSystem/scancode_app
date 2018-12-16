@@ -1,4 +1,4 @@
-<Page actionBarHidden="true" navigatingTo="navigatingTo">
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true" navigatingTo="navigatingTo">
 	<StackLayout class="m-15">
 		<Button class="rounded-md border black h-half m-b-15" tap="goClientes">
 			<FormattedString>

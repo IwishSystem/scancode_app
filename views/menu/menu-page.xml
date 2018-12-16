@@ -1,4 +1,4 @@
-<Page actionBarHidden="true" class="page" navigatingTo="navigatingTo" >
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true" class="page" navigatingTo="navigatingTo" >
 	<TabView id="tabViewContainer" androidTabsPosition="bottom" selectedIndexChanged="{{ changed }}" tabBackgroundColor="white" selectedTabTextColor="#ee3344" >
 		<TabViewItem title="Home" iconSource="{{ home }}">
 			<Frame defaultPage="views/menu/tabs/home/home-page" id="home_frame" />

@@ -1,4 +1,4 @@
-<Page navigatingTo="navigatingTo" class="page t-md">
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" class="page t-md">
 	<Page.actionBar><ActionBar title="" class="bg-red" /></Page.actionBar>
 		<DockLayout stretchLastChild="true" class="m-x-15">
 			<StackLayout dock="top">

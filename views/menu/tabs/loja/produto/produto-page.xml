@@ -1,4 +1,4 @@
-<Page navigatingTo="navigatingTo" loaded="{{ loaded }}">
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="{{ loaded }}">
 	<Page.actionBar><ActionBar title="" class="bg-red" /></Page.actionBar>
 	<DockLayout>
 		<StackLayout>
@@ -20,7 +20,7 @@
 						</StackLayout>
 						<StackLayout dock="left">
 							<Label text="valor" class="t-8 font-weight-bold" />
-							<Label text="{{ produto.preco }}" class="t-lg font-weight-thin" />
+							<Label text="{{ produto.preco  | concurrency }}" class="t-lg font-weight-thin" />
 						</StackLayout>
 					</DockLayout>
 					<DockLayout class="bg-gray-light p-x-10 p-y-5 m-t-10">

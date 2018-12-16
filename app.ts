@@ -13,17 +13,47 @@ if (application.android) {
 		var frame = require('tns-core-modules/ui/frame');
 		var currentPage = frame.topmost().currentPage;
 
-		console.log(currentPage);
 		if (currentPage && currentPage.exports && typeof currentPage.exports.backEvent === "function") {
 			currentPage.exports.backEvent(args);
 		}
 	}); 
 }
 
+function concurrency(value){
+	let val = (value/1).toFixed(2).replace('.', ',')
+	return 'R$'+val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 function getIcon(value){
 	return String.fromCharCode(value);
 }
 
-application.setResources( { getIcon });
+function historicoItems(value){
+	if(value == 1){
+		return 'Aberto';
+	}else if(value == 2){
+		return 'Concluído';
+	} else if(value == 3) {
+		return 'Cancelado';
+	} else if(value == 4) {
+		return 'Reservado';
+	}  else if(value == 6) {
+		return 'Em andamento';
+	}else {
+		return 'N/A';
+	}
+}
+
+function historicoBg(value){
+	if(value == 1 || value == 6){
+		return 'green';
+	}else if(value == 2){
+		return 'red';
+	} else  {
+		return 'gray';
+	} 
+}
+
+application.setResources( { getIcon, concurrency, historicoItems, historicoBg });
 
 application.run({ moduleName: "main-root" });
