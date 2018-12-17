@@ -91,7 +91,7 @@ export class ClienteNovoModel extends Observable {
 
         public apiCep(args){
             var page = args.object.page;
-            axios.get(cache.getString("api") + "/api/utils/cep/"+this.cep).then(
+            axios.get(cache.getString("api") + "/utils/cep/"+this.cep).then(
                 result => {
                     if(result.status == 200) {
                         if(result.data.endereco){
@@ -115,7 +115,7 @@ export class ClienteNovoModel extends Observable {
 
         public apiCnpj(args){
             var page = args.object.page;
-            axios.get(cache.getString("api") + "/api/utils/cnpj/"+this.cpf_cnpj).then(
+            axios.get(cache.getString("api") + "/utils/cnpj/"+this.cpf_cnpj).then(
                 result => {
                     if(result.status == 200) {
                         if(result.data.dados) {

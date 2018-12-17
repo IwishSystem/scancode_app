@@ -1,6 +1,24 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="{{ loaded }}">
 	<Page.actionBar><ActionBar title="" class="bg-red" /></Page.actionBar>
 	<DockLayout>
+		<StackLayout visibility="{{ pedido ? 'visible' : 'collapsed' }}" orientation="horizontal" dock="bottom" class="bg-gray-light border-t">
+			<StackLayout width="25%" class="">
+				<Label text="" class="t-8" />
+				<Button text="{{ '0xea0a' | getIcon }}"  class="icon t-lg" tap="{{ adicionar }}" />
+			</StackLayout>
+			<StackLayout width="25%" class="">
+				<Label text="" class="t-8" />
+				<Button text="{{ '0xea0b' | getIcon }}"  class="icon t-lg" tap="{{ diminuir }}" />
+			</StackLayout>
+			<StackLayout width="25%" class="">
+				<Label text="Incluir" class="t-8 text-center font-weight-bold" />
+				<Button text="{{ '0xea10' | getIcon }}" class="{{ btn_color+' icon t-lg white' }}" tap="{{ atualizar }}" />
+			</StackLayout>
+			<StackLayout width="25%">
+				<Label text="Quantidade" class="t-8 text-center font-weight-bold" />
+				<Button text="{{ quantidade }}" class="borderd t-lg" style="background-color: transparent;" />
+			</StackLayout>
+		</StackLayout>
 		<StackLayout>
 			<FlexboxLayout justifyContent="center" alignItems="center" class="h-full" flexDirection="column" visibility="{{ !produto ? 'visible' : 'collapsed' }}" >
 				<Label text="Carregando produto" class="red" />
@@ -37,8 +55,8 @@
 							<Label text="{{ produto.produto_estoque.disponivel_atual }}" class="t-lg font-weight-thin" />
 						</StackLayout>
 					</DockLayout>
-					<StackLayout visibility="{{ pedido_item ? 'visible' : 'collapsed' }}" class="m-y-10 m-x-10 form">
-						<TextView text="{{ observacao }}" class="input input-rounded t-sm" style="height:150" hint="Obervacao..." />
+					<StackLayout visibility="{{ pedido ? 'visible' : 'collapsed' }}" class="m-y-10 m-x-10 form">
+						<TextView text="{{ observacao }}" class="input input-rounded t-sm" style="height:150" hint="Observação..." />
 					</StackLayout>
 				</StackLayout>
 			</ScrollView>

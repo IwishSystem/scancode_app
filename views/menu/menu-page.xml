@@ -4,7 +4,7 @@
 			<Frame defaultPage="views/menu/tabs/home/home-page" id="home_frame" />
 		</TabViewItem>
 		<TabViewItem title="Pedidos" iconSource="{{ pedidos }}">
-			<Frame defaultPage="views/menu/tabs/pedidos/pedidos-page" id="pedidos_frame" />
+			<Frame defaultPage="{{ default_pedido_page }}" id="pedidos_frame" />
 		</TabViewItem>
 		<TabViewItem title="Sacola" iconSource="{{ sacola }}">
 			<Frame defaultPage="views/menu/tabs/sacola/sacola-page" id="sacola_frame" />

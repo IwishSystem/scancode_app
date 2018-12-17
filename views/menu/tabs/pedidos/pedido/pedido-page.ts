@@ -62,6 +62,7 @@ export function backEvent(args) {
 				}
 			});
 	} else {
+		storage.setItemObject('pedido', null);
 		topmost().navigate({moduleName: "views/menu/tabs/pedidos/historico/historico-page", clearHistory: true});
 	}
 }

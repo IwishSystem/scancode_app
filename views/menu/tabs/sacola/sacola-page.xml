@@ -1,6 +1,44 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" class="page t-md" >
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="{{ loaded }}" class="page t-md" >
 	<Page.actionBar><ActionBar title="" class="bg-red" /></Page.actionBar>
-	<StackLayout class="m-x-15 form">
-		<Label text="Sacola" class="h1 font-weight-light" />
+	<StackLayout class="p-t-5">
+		<Label class="h1 font-weight-light m-x-10" text="Sacola " />
+		<FlexboxLayout justifyContent="center" alignItems="center" class="h-full" flexDirection="column" visibility="{{ (!pedido) ? 'visible' : 'collapsed' }}">
+			<Label text="Não há pedido selecionado" class="red" />
+		</FlexboxLayout>
+		<FlexboxLayout justifyContent="center" alignItems="center" class="h-full" flexDirection="column" visibility="{{ (pedido && items.length == 0) ? 'visible' : 'collapsed' }}">
+			<StackLayout orientation="horizontal">
+				<Label text="Sacola Vazia " class="red t-lg" />
+				<Label text="{{ '0xe93a' | getIcon }}" class="red icon t-lg" />
+			</StackLayout>
+		</FlexboxLayout>
+		<ListView visibility="{{ (pedido && items.length != 0) ? 'visible' : 'collapsed' }}"  class="list-group" items="{{ items }}" separatorColor="transparent" itemTap="{{ gotoProduto }}" >
+			<ListView.itemTemplate>
+				<StackLayout>
+					<StackLayout orientation="horizontal" class="m-x-10 m-t-5">
+						<StackLayout width="110" height="110" class="m-r-10 border" verticalAlignment="center">
+							<Image src="{{ $parents['Page'].url  + produto.imagem,  $parents['Page'].url  + produto.imagem }}" stretch="aspectFit" />
+						</StackLayout>
+						<DockLayout stretchLastChild="false">
+							<StackLayout dock="top">
+								<Label text="{{ produto.codigo }}" class="t-10 font-weight-thin" /> 
+								<Label text="{{ produto.descricao }}"  class="t-12 font-weight-normal" />
+								<Label text="{{ 'Estoque: Atual('+estoque_atual_qtd+') Futuro('+ estoque_futuro_qtd +')' }}" class="t-8 font-weight-thin" />
+							</StackLayout>
+							<StackLayout dock="bottom">
+								<Label text="Quantidade" class="t-12 font-weight-normal" />
+								<DockLayout orientation="horizontal" class="w-full">
+									<Label text="{{ quantidade }}" dock="left" class="t-md border p-x-30 p-y-5 text-center border-radius-sm font-weight-thin" />
+									<Label text="{{ preco  | concurrency }}" dock="right" class="red t-md p-y-5 text-right" />
+								</DockLayout>
+							</StackLayout>
+						</DockLayout>
+					</StackLayout>
+					<DockLayout class="bg-gray-light red p-x-10 p-y-5 m-t-5">
+						<Label text="SubTotal" dock="left" class="t-12" />
+						<Label text="{{ quantidade*preco | concurrency }}" dock="right" class="t-12 text-right" />
+					</DockLayout>
+				</StackLayout>
+			</ListView.itemTemplate>
+		</ListView>
 	</StackLayout>
 </Page>

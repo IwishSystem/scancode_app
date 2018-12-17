@@ -14,7 +14,7 @@ export function backEvent(args) {
 	args.cancel = true;
 	dialogs.confirm({
 		title: "",
-		message: "Deseja realmente fechar o aplicativo?",
+		message: "Deseja realmente fechar o aplicativo? ",
 		okButtonText: "Sair",
 		cancelButtonText: "Cancelar",
 		neutralButtonText: ""

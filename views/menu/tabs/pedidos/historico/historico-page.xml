@@ -2,7 +2,7 @@
 	<Page.actionBar><ActionBar title="" class="bg-red" /></Page.actionBar>
 	<DockLayout stretchLastChild="true">
 		<StackLayout dock="top" class="m-x-10">
-			<Label text="Histórico " class="h1 font-weight-light" />
+			<Label text="Histórico" class="h1 font-weight-light" />
 		</StackLayout>
 		<StackLayout visibility="{{ (ready) ? 'visible' : 'collapsed' }}" dock="bottom" class="bg-gray-light p-y-5 p-l-10 p-r-20">
 			<DockLayout stretchLastChild="true">
