@@ -1,5 +1,4 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="{{ loaded }}" xmlns:PullRefresh="nativescript-pulltorefresh">
-	<Page.actionBar><ActionBar title="" class="bg-red" /></Page.actionBar>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="{{ loaded }}" xmlns:PullRefresh="nativescript-pulltorefresh" actionBarHidden="true">
 	<StackLayout class="m-x-10 m-t-5">
 		<Label text="Produtos " class="h1 font-weight-thin" />
 		<FlexboxLayout justifyContent="center" alignItems="center" class="h-full" flexDirection="column" visibility="{{ (produtos.length==0) ? 'visible' : 'collapsed' }}">

@@ -1,23 +1,10 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true" class="page" navigatingTo="navigatingTo">
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="{{ loaded }}" actionBarHidden="true" class="page" navigatingTo="navigatingTo">
 	<Page.actionBar>
 		<ActionBar   />
 	</Page.actionBar>
-	
-	 	
-	<!-- <ListView items="{{ icons }}">
-        <ListView.itemTemplate>
-            <StackLayout orientation="horizontal">
-                <Label text="{{ icon }}" class="icon black"/>
-                <Label text="{{ code }}" class="black"/>
-            </StackLayout>
-        </ListView.itemTemplate>
-    </ListView>-->
-	
     <ScrollView scrollBarIndicatorVisible="false">
     	<GridLayout rows="auto auto auto auto" class="m-15 white">
     		<StackLayout class="bg-red m-b-15 p-15 rounded-md" row="0">
-
-
     			<Label text="BEM VINDO KLEITON EDUARDO" class="t-md" />
     			<Label text="Pedidos" class="card-title font-weight-bold" />
     			<Label text="1036" class="t-lg font-weight-bold" />

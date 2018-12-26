@@ -1,5 +1,4 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" class="page t-md" >
-	<Page.actionBar><ActionBar title="" class="bg-red" /></Page.actionBar>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" class="page t-md" actionBarHidden="true">
 	<StackLayout class="m-x-15 form">
 		<Label text="Transportadora" class="h1 font-weight-light" />
 		<StackLayout class="input-field">

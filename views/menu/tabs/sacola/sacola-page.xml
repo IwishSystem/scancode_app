@@ -1,5 +1,4 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="{{ loaded }}" class="page t-md" >
-	<Page.actionBar><ActionBar title="" class="bg-red" /></Page.actionBar>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="{{ loaded }}" class="page t-md" id="page_sacola" actionBarHidden="true">
 	<StackLayout class="p-t-5">
 		<Label class="h1 font-weight-light m-x-10" text="Sacola " />
 		<FlexboxLayout justifyContent="center" alignItems="center" class="h-full" flexDirection="column" visibility="{{ (!pedido) ? 'visible' : 'collapsed' }}">

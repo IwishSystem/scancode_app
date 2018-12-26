@@ -14,6 +14,10 @@ export function goHistorico(args: EventData) {
 	topmost().navigate({moduleName: "views/menu/tabs/pedidos/historico/historico-page", clearHistory: true});
 }
 
+export function loaded(args) {
+	//console.log('LOADED PEDIDOS');
+}
+
 export function backEvent(args) {
 	args.cancel = true;
 	var tab = <TabView>topmost().currentPage.parent.parent.parent;

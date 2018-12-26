@@ -16,6 +16,7 @@ export class LojaModel extends Observable {
     }
 
     public loaded(args){
+        //console.log('LOADED LOJA');
         var page = args.object.page;
         if(this.categorias.length == 0){
             axios.get(cache.getString('api')+'/categorias', {auth: {username: cache.getString('login'), password: cache.getString('senha')}}).then(

@@ -1,5 +1,4 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="{{ loaded }}" class="page t-md" >
-	<Page.actionBar><ActionBar title="" class="bg-red" /></Page.actionBar>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="{{ loaded }}" class="page t-md" actionBarHidden="true">
 	<StackLayout class="m-x-15">
 		<Label text="Pagamento" class="h1 font-weight-light" />
 		<StackLayout visibility="{{ (pagamentos.length!=0) ? 'visible' : 'collapsed' }}">

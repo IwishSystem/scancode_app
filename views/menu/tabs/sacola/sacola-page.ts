@@ -14,3 +14,10 @@ export function backEvent(args) {
 	var tab = <TabView>topmost().currentPage.parent.parent.parent;
 	tab.selectedIndex = 1;
 }
+
+export function updateSacola(page: Page) {
+
+	console.log(page);
+//	var page = <Page>topmost().currentPage;
+//	console.log(page.frame);
+}

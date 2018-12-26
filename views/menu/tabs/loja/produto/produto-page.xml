@@ -1,5 +1,4 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="{{ loaded }}">
-	<Page.actionBar><ActionBar title="" class="bg-red" /></Page.actionBar>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="{{ loaded }}" actionBarHidden="true">
 	<DockLayout>
 		<StackLayout visibility="{{ pedido ? 'visible' : 'collapsed' }}" orientation="horizontal" dock="bottom" class="bg-gray-light border-t">
 			<StackLayout width="25%" class="">
