@@ -22,42 +22,9 @@ export class HostModel extends Observable {
                 if(result.status == 200){
                     cache.setString('url', this.url);
                     cache.setString('api', this.url+'/api');
-
-                    axios.get(cache.getString('api')+'/categorias', {auth: {username: 'admin', password: '123456'}}).then(
-                        (result) => {
-                            if(result.status == 200) {
-                                storage.setItemObject('categorias', result.data.categorias);
-                                this.set('categorias', result.data.categorias);
-
-                                axios.get(cache.getString("api") +'/produtos', {auth: {username: 'admin', password: '123456'}}).then(
-                                    result => {
-                                        if(result.status == 200) {
-                                            storage.setItemObject('produtos', result.data.produtos);
-                                        } else {
-                                            alert({title: "", message: "Produtos não carregado1", okButtonText: ""});
-                                        }
-                                    },
-                                    error => {
-                                        if(error.response.status == 404 || error.response.status == 401){
-                                            alert({title: "", message: "Produtos não carregado2", okButtonText: ""});
-                                        } else {
-                                            alert({title: "", message: "Produtos não carregado3", okButtonText: ""});
-                                        }
-                                    });
-
-
-
-                            } else {
-                                alert({title: "", message: "Categorias não carregado1", okButtonText: ""});
-                            }
-                        }, (error) => {
-                            if(error.response.status == 404 || error.response.status == 401){
-                                alert({title: "", message: "Categorias não carregado2:"+ error.response.status, okButtonText: ""});
-                            } else {
-                                alert({title: "", message: "Categorias não carregado3", okButtonText: ""});
-                            }
-                        });
-
+                    this.axiosCategorias();
+                    this.axiosProdutos();
+                    this.axiosClientes();    
 
                     frame.goBack();
                 } else {
@@ -72,8 +39,60 @@ export class HostModel extends Observable {
                     alert({title: "", message: "Servidor não responde", okButtonText: ""});
                 }
             });
+    }
 
+    public axiosCategorias(){
+        axios.get(cache.getString('api')+'/categorias').then(
+            (result) => {
+                if(result.status == 200) {
+                    storage.setItemObject('categorias', result.data.categorias);
+                    this.set('categorias', result.data.categorias);
+                } else {
+                    alert({title: "", message: "Categorias não carregado1", okButtonText: ""});
+                }
+            }, (error) => {
+                if(error.response.status == 404 || error.response.status == 401){
+                    alert({title: "", message: "Categorias não carregado2:"+ error.response.status, okButtonText: ""});
+                } else {
+                    alert({title: "", message: "Categorias não carregado3", okButtonText: ""});
+                }
+            });
+    }
 
+    public axiosProdutos(){
+        axios.get(cache.getString("api") +'/produtos', {auth: {username: 'admin', password: '123456'}}).then(
+            result => {
+                if(result.status == 200) {
+                    storage.setItemObject('produtos', result.data.produtos);
+                } else {
+                    alert({title: "", message: "Produtos não carregado1", okButtonText: ""});
+                }
+            },
+            error => {
+                if(error.response.status == 404 || error.response.status == 401){
+                    alert({title: "", message: "Produtos não carregado2", okButtonText: ""});
+                } else {
+                    alert({title: "", message: "Produtos não carregado3", okButtonText: ""});
+                }
+            });
+    }
+
+    public axiosClientes(){
+        axios.get(cache.getString("api") +'/clientes').then(
+            result => {
+                if(result.status == 200) {
+                    storage.setItemObject('clientes', result.data.clientes);
+                } else {
+                    alert({title: "", message: "Clientes não carregado 1", okButtonText: ""});
+                }
+            },
+            error => {
+                if(error.response.status == 404 || error.response.status == 401){
+                    alert({title: "", message: "Clientes não carregado2", okButtonText: ""});
+                } else {
+                    alert({title: "", message: "Clientes não carregado3", okButtonText: ""});
+                }
+            });
     }
 
 

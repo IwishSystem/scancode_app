@@ -3,16 +3,19 @@ import { ItemEventData } from "tns-core-modules/ui/list-view";
 import { topmost } from "tns-core-modules/ui/frame";
 import * as cache from "tns-core-modules/application-settings";
 import axios from "axios";
+import * as storage from "nativescript-localstorage";
 
 
 export class ClientesModel extends Observable {
 
+    public page;
     public clientes: Array<object>;
     public clientes_todos: Array<object>;
     public search: string;
 
-    constructor() {
+    constructor(page) {
         super();
+        this.page = page;
         this.clientes = [];
         this.clientes_todos = [];
         this.search = '';
@@ -26,24 +29,31 @@ export class ClientesModel extends Observable {
     }
 
     public loaded(args){
-        var page = args.object.page;
-        if(this.clientes_todos.length == 0){
-            axios.get(cache.getString("api") +'/clientes', {auth: {username: cache.getString('login'), password: cache.getString('senha')}}).then(
-                result => {
-                    if(result.status == 200) {
-                        this.clientes_todos = result.data.clientes;
-                    } else {
-                        this.redirectLogin(page);
-                    }
-                },
-                error => {
-                    if(error.response.status == 404 || error.response.status == 401){
-                        this.redirectLogin(page);
-                    } else {
-                        alert({title: "", message: "Opps,Ocorreu alguma falha", okButtonText: ""});
-                    }
-                });
+        var clientes = storage.getItem('clientes') || [];
+        if(clientes.length == 0){
+            this.axiosClientes();
+        } else {
+            this.clientes_todos = clientes;
         }
+    }
+
+    private axiosClientes(){
+        axios.get(cache.getString("api") +'/clientes').then(
+            result => {
+                if(result.status == 200) {
+                    storage.setItemObject('clientes', result.data.clientes);
+                    this.clientes_todos = result.data.clientes;
+                } else {
+                    this.redirectLogin(this.page);
+                }
+            },
+            error => {
+                if(error.response.status == 404 || error.response.status == 401){
+                    this.redirectLogin(this.page);
+                } else {
+                    alert({title: "", message: "Opps,Ocorreu alguma falha", okButtonText: ""});
+                }
+            });
     }
 
     private updateClientes(){

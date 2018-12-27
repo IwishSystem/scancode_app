@@ -4,6 +4,6 @@ import { ClientesModel } from "./clientes-model";
 
 export function navigatingTo(args: EventData) {
 	let page = <Page>args.object;
-    page.bindingContext = new ClientesModel();
+    page.bindingContext = new ClientesModel(page);
 }
 

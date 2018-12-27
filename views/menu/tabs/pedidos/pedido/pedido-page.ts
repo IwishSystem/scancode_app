@@ -9,7 +9,7 @@ import { topmost } from "tns-core-modules/ui/frame";
 
 export function navigatingTo(args: EventData) {
 	let page = <Page>args.object;
-	page.bindingContext = new PedidoModel();
+	page.bindingContext = new PedidoModel(page);
 }
 
 export function backEvent(args) {

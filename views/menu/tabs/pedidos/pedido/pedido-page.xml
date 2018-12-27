@@ -21,8 +21,8 @@
 			</DockLayout>
 			<DockLayout>
 				<StackLayout orientation="horizontal" dock="left">
-					<Button text="{{ '0xe90f' | getIcon }}" class="icon bg-green white"  style="width:50; font-size: 27; padding:2; margin: 0; margin-bottom: 5;"  tap="{{ ativarCamera }}" />
-					<Button text="{{ '0xe954' | getIcon }}" class="icon bg-gray white" style="width:50; font-size: 27; padding:2; margin: 0; margin-bottom: 5;" tap="{{ print }}"  />
+					<Button text="{{ '0xe90f' | getIcon }}" class="icon bg-green white"  style="width:50; font-size: 27; padding:2; margin: 0; margin-bottom: 5;"  tap="{{ ativarCamera }}" visibility="{{ (pedido.id_status==6) ? 'visible' : 'collapsed' }}" />
+					<Button text="{{ '0xe954' | getIcon }}" class="icon bg-green white" style="width:50; font-size: 27; padding:2; margin: 0; margin-bottom: 5;" tap="{{ print }}" visibility="{{ (pedido.id_status==2) ? 'visible' : 'collapsed' }}"  />
 				</StackLayout>
 				<StackLayout>
 					<Button text="{{ text_btn }}" tap="{{ finalizarPedido }}" class="{{ bg + ' white'}}" style="margin: 0; margin-bottom: 5;" />

@@ -1,11 +1,14 @@
 import { Observable, PropertyChangeData } from "tns-core-modules/data/observable";
-import { topmost } from "tns-core-modules/ui/frame";
+import { topmost, Frame } from "tns-core-modules/ui/frame";
 import * as storage from "nativescript-localstorage";
 import * as cache from "tns-core-modules/application-settings";
 import axios from "axios";
+import { BarcodeScanner } from "nativescript-barcodescanner";
+import { TabView } from "tns-core-modules/ui/tab-view";
 
 export class PedidoModel extends Observable {
 
+    public page;
     public pedido;
 
     public pedido_pagamento: string;    
@@ -22,8 +25,9 @@ export class PedidoModel extends Observable {
 
     public bg: string;
 
-    constructor() {
+    constructor(page) {
         super(); 
+        this.page = page;
         this.update();
     }
 
@@ -142,6 +146,70 @@ export class PedidoModel extends Observable {
             this.set('bg', 'bg-red');
         } else {
             this.set('bg', 'bg-gray');
+        }
+    }
+
+    public ativarCamera(args){
+        let barcodescanner = new BarcodeScanner();
+
+        barcodescanner.scan({
+            formats: "QR_CODE, EAN_13,CODE_128",
+            showFlipCameraButton: true,
+            preferFrontCamera: false,
+            showTorchButton: true,
+            beepOnScan: true,
+            torchOn: false,
+            resultDisplayDuration: 0,
+            openSettingsIfPermissionWasPreviouslyDenied: true
+        }).then((result) => {
+            this.search(result.text);
+        }, (errorMessage) => {
+            alert('Erro scanning');
+        });
+    }
+
+    public search(search){
+        var produtos = storage.getItem('produtos') || [];
+        var produto = produtos.find(
+            (produto) => {
+                if(produto.id_produto == search){
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        if(produto) {
+
+            var tab = <TabView>topmost().currentPage.parent.parent.parent;
+            tab.selectedIndex = 3;
+            var frameLoja = <Frame>topmost().currentPage.parent.parent.parent.parent.getViewById('loja_frame');
+            frameLoja.navigate({moduleName: "views/menu/tabs/loja/produto/produto-page", backstackVisible: false, context: { id_produto: produto.id_produto }});
+
+        } else {
+            axios.get(cache.getString("api") + "/produtos/"+search+"/find", {auth: {username: cache.getString('login'), password: cache.getString('senha')}}).then(
+                result => {
+                    if(result.status == 200) {
+                        var produto = result.data.produto;
+                        if(produto){
+                            var tab = <TabView>topmost().currentPage.parent.parent.parent;
+                            tab.selectedIndex = 3;
+                            var frameLoja = <Frame>topmost().currentPage.parent.parent.parent.parent.getViewById('loja_frame');
+                            frameLoja.navigate({moduleName: "views/menu/tabs/loja/produto/produto-page", backstackVisible: false, context: { id_produto: produto.id_produto }});
+                        } else {
+                            alert({title: "", message: "Produto não encontrado", okButtonText: ""});
+                        }
+                    } else {
+                        this.redirectLogin(this.page);
+                    }
+                },
+                error => {
+                    alert(error.response.status);
+                    if(error.response.status == 404 || error.response.status == 401){
+                        this.redirectLogin(this.page);
+                    } else {
+                        alert({title: "", message: "Opps,Ocorreu alguma falha", okButtonText: ""});
+                    }
+                });
         }
     }
 
