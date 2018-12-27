@@ -2,6 +2,7 @@ import { Observable } from "tns-core-modules/data/observable";
 import axios from "axios";
 import * as cache from "tns-core-modules/application-settings";
 import { topmost } from "tns-core-modules/ui/frame";
+import * as storage from "nativescript-localstorage";
 
 export class HostModel extends Observable {
 
@@ -21,6 +22,43 @@ export class HostModel extends Observable {
                 if(result.status == 200){
                     cache.setString('url', this.url);
                     cache.setString('api', this.url+'/api');
+
+                    axios.get(cache.getString('api')+'/categorias', {auth: {username: 'admin', password: '123456'}}).then(
+                        (result) => {
+                            if(result.status == 200) {
+                                storage.setItemObject('categorias', result.data.categorias);
+                                this.set('categorias', result.data.categorias);
+
+                                axios.get(cache.getString("api") +'/produtos', {auth: {username: 'admin', password: '123456'}}).then(
+                                    result => {
+                                        if(result.status == 200) {
+                                            storage.setItemObject('produtos', result.data.produtos);
+                                        } else {
+                                            alert({title: "", message: "Produtos não carregado1", okButtonText: ""});
+                                        }
+                                    },
+                                    error => {
+                                        if(error.response.status == 404 || error.response.status == 401){
+                                            alert({title: "", message: "Produtos não carregado2", okButtonText: ""});
+                                        } else {
+                                            alert({title: "", message: "Produtos não carregado3", okButtonText: ""});
+                                        }
+                                    });
+
+
+
+                            } else {
+                                alert({title: "", message: "Categorias não carregado1", okButtonText: ""});
+                            }
+                        }, (error) => {
+                            if(error.response.status == 404 || error.response.status == 401){
+                                alert({title: "", message: "Categorias não carregado2:"+ error.response.status, okButtonText: ""});
+                            } else {
+                                alert({title: "", message: "Categorias não carregado3", okButtonText: ""});
+                            }
+                        });
+
+
                     frame.goBack();
                 } else {
                     alert({title: "", message: "Servidor não encontrado", okButtonText: ""});

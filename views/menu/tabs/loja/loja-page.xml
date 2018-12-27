@@ -10,7 +10,7 @@
 				<ListView.itemTemplate>
 					<StackLayout class="border-b p-y-5" orientation="horizontal">
 						<StackLayout width="80" height="80" class="m-r-20" verticalAlignment="center">
-							<Image  src="{{ $parents['Page'].url  + imagem, $parents['Page'].url + imagem }}" stretch="aspectFit" />
+							<Image  src="{{ imagem  | urlBefore }}" stretch="aspectFit" />
 						</StackLayout>
 						<Label text="{{ descricao }}" verticalAlignment="center" class="t-lg font-weight-normal"  />
 					</StackLayout>

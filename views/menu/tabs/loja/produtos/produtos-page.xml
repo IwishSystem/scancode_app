@@ -1,17 +1,20 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="{{ loaded }}" xmlns:PullRefresh="nativescript-pulltorefresh" actionBarHidden="true">
 	<StackLayout class="m-x-10 m-t-5">
 		<Label text="Produtos " class="h1 font-weight-thin" />
-		<FlexboxLayout justifyContent="center" alignItems="center" class="h-full" flexDirection="column" visibility="{{ (produtos.length==0) ? 'visible' : 'collapsed' }}">
+		<FlexboxLayout justifyContent="center" alignItems="center" class="h-full" flexDirection="column" visibility="{{ (!load && produtos.length==0) ? 'visible' : 'collapsed' }}">
+			<Label text="Nenhum produto encontrado" class="red" />
+		</FlexboxLayout>
+		<FlexboxLayout justifyContent="center" alignItems="center" class="h-full" flexDirection="column" visibility="{{ (load) ? 'visible' : 'collapsed' }}">
 			<Label text="Carregando os produtos" class="red" />
 			<ActivityIndicator class="activity-indicator red m-10" busy="true"></ActivityIndicator>
 		</FlexboxLayout>
-		<PullRefresh:PullToRefresh refresh="{{ refresh }}" visibility="{{ (produtos.length!=0) ? 'visible' : 'collapsed' }}">	
+		<PullRefresh:PullToRefresh refresh="{{ refresh }}" visibility="{{ (!load && produtos.length!=0) ? 'visible' : 'collapsed' }}">	
 			<ListView items="{{ produtos }}" itemTap="{{ itemTap }}" separatorColor="transparent" class="list-group">
 				<ListView.itemTemplate>
 					<StackLayout class="border-b p-y-5" orientation="horizontal">
 						<StackLayout orientation="horizontal">
 							<StackLayout width="80" height="80" class="m-r-20 border" verticalAlignment="center">
-								<Image src="{{ $parents['Page'].url  + imagem, $parents['Page'].url + imagem }}" stretch="aspectFit" />
+								<Image src="{{ imagem  | urlBefore }}" stretch="aspectFit" />
 							</StackLayout>
 							<DockLayout  stretchLastChild="false">
 								<StackLayout dock="top">

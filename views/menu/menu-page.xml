@@ -3,13 +3,9 @@
 		<ActionBar class="bg-red">
 			<StackLayout style="width:100%;">
 				<TextView id="scan" text="{{ scan }}" focus="true" loaded="{{ loadedScan }}" style="height:0" />
-            	<!--<SearchBar style="width: 90%;" class="whit" id="searchbar_reader"  />
-            	<SearchBar style="width: 90%;" class="white" focus="true" />-->
             </StackLayout>
         </ActionBar>
     </Page.actionBar>
-    <!--<StackLayout>-->
-    <!--<TextView id="scan" text="{{ scan }}" focus="true" loaded="{{ loadedScan }}" style="height:0" />-->
     <TabView id="tabViewContainer" androidTabsPosition="bottom" selectedIndexChanged="{{ changed }}" tabBackgroundColor="white" selectedTabTextColor="#ee3344" >
     	<TabViewItem title="Home" iconSource="{{ home }}">
     		<Frame defaultPage="views/menu/tabs/home/home-page" id="home_frame" />
@@ -24,5 +20,4 @@
     		<Frame defaultPage="views/menu/tabs/loja/loja-page" id="loja_frame" />
     	</TabViewItem>
     </TabView>
-    <!--</StackLayout>-->
 </Page>

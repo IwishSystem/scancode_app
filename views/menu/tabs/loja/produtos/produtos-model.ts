@@ -3,40 +3,69 @@ import { ItemEventData } from "tns-core-modules/ui/list-view";
 import { topmost } from "tns-core-modules/ui/frame";
 import * as cache from "tns-core-modules/application-settings";
 import axios from "axios";
+import * as storage from "nativescript-localstorage";
 
 export class ProdutosModel extends Observable {
 
+    public page;
+    public id_categoria: number;
     public produtos: Array<object>;
-    private id_categoria: number;
-    public url: string;
+    public load: boolean;
 
-    constructor(id_categoria: number) {
+    constructor(page, id_categoria: number) {
         super();
+        this.page = page;
         this.id_categoria = id_categoria;
 
-        this.url = cache.getString('url');
         this.produtos = [];
+        this.load = false;
     }
 
     public loaded(args){
-        var page = args.object.page;
-        if(this.produtos.length == 0){
-            axios.get(cache.getString("api") +'/produtos/'+this.id_categoria+'/categoria', {auth: {username: cache.getString('login'), password: cache.getString('senha')}}).then(
-                result => {
-                    if(result.status == 200) {
-                        this.set('produtos', result.data.produtos);
-                    } else {
-                        this.redirectLogin(page);
-                    }
-                },
-                error => {
-                    if(error.response.status == 404 || error.response.status == 401){
-                        this.redirectLogin(page);
-                    } else {
-                        alert({title: "", message: "Opps, Ocorreu alguma falha ", okButtonText: ""});
-                    }
-                });
+        var produtos = storage.getItem('produtos') || [];
+        if(produtos.length == 0){
+            this.axiosProdutos();
+        } else {
+            this.set('produtos', this.produtosByCategory(produtos, this.id_categoria));
         }
+    }
+
+    public axiosProdutos(){
+        this.set('load', true);
+        axios.get(cache.getString("api") +'/produtos', {auth: {username: cache.getString('login'), password: cache.getString('senha')}}).then(
+            result => {
+                if(result.status == 200) {
+                    this.set('load', false);
+                    storage.setItemObject('produtos', result.data.produtos);
+                    this.set('produtos', this.produtosByCategory(result.data.produtos, this.id_categoria));
+                } else {
+                    this.redirectLogin(this.page);
+                }
+            },
+            error => {
+                if(error.response.status == 404 || error.response.status == 401){
+                    this.redirectLogin(this.page);
+                } else {
+                    alert({title: "", message: "Opps, Ocorreu alguma falha ", okButtonText: ""});
+                }
+            });
+    }
+
+    private produtosByCategory(produtos, id_category){
+        var produtos_by_categoria = produtos.filter(
+            (produto, index) => {
+                if(produto.id_categoria == this.id_categoria){
+                    return true;
+                } else {
+                    return false;
+                }
+            }, this);
+        if(produtos_by_categoria.length == 0){
+            this.set('empty', true);
+        } else {
+            this.set('empty', false);
+        }
+        return produtos_by_categoria;
     }
 
     private redirectLogin(page){
@@ -45,25 +74,29 @@ export class ProdutosModel extends Observable {
     }
 
     public refresh(args){
-        var page = args.object.page;
-        var pullRefresh = args.object;
-        axios.get(cache.getString("api") +'/produtos/'+this.id_categoria+'/categoria', {auth: {username: cache.getString('login'), password: cache.getString('senha')}}).then(
-            (result) => {
+        this.axiosProdutosRefresh(args.object);
+    }
+
+    public axiosProdutosRefresh(pullRefresh){
+        axios.get(cache.getString("api") +'/produtos', {auth: {username: cache.getString('login'), password: cache.getString('senha')}}).then(
+            result => {
                 pullRefresh.refreshing = false;
                 if(result.status == 200) {
-                    this.set('produtos', result.data.produtos);
+                    storage.setItemObject('produtos', result.data.produtos);
+                    this.set('produtos', this.produtosByCategory(result.data.produtos, this.id_categoria));
                 } else {
-                    this.redirectLogin(page);
+                    this.redirectLogin(this.page);
                 }
-            }, (error) => {
+            },
+            error => {
                 pullRefresh.refreshing = false;
                 if(error.response.status == 404 || error.response.status == 401){
-                    this.redirectLogin(page);
+                    this.redirectLogin(this.page);
                 } else {
                     alert({title: "", message: "Opps, Ocorreu alguma falha ", okButtonText: ""});
                 }
             });
-    }    
+    }  
 
 
 

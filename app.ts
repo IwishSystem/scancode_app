@@ -25,6 +25,10 @@ function concurrency(value){
 	return 'R$'+val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+function urlBefore(value){
+	return cache.getString('url', '')+value;
+}
+
 function getIcon(value){
 	return String.fromCharCode(value);
 }
@@ -55,6 +59,6 @@ function historicoBg(value){
 	} 
 }
 
-application.setResources( { getIcon, concurrency, historicoItems, historicoBg });
+application.setResources( { getIcon, concurrency, historicoItems, historicoBg, urlBefore });
 
 application.run({ moduleName: "main-root" });

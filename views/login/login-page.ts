@@ -7,6 +7,7 @@ export function navigatingTo(args: EventData) {
 	console.log(cache.getString('login'));
 	console.log(cache.getString('senha'));
 
+	//cache.clear();
 	//cache.remove("login");
 	//cache.remove("senha");
 

@@ -6,7 +6,7 @@ import { TabView } from "tns-core-modules/ui/tab-view";
 
 export function navigatingTo(args: EventData) {
 	let page = <Page>args.object;
-    page.bindingContext = new LojaModel();
+    page.bindingContext = new LojaModel(page);
 }
 
 export function backEvent(args) {

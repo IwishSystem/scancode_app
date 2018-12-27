@@ -47,7 +47,7 @@ export class MenuModel extends Observable {
         }, this);
 
     }
-//K81163   http://scancode.com.br/app  app@app.com.br
+    //K81163   http://scancode.com.br/app  app@app.com.br
     public loaded(){
         console.log('MENU LOADED!!');
     }
@@ -85,35 +85,46 @@ export class MenuModel extends Observable {
 
 
     public searchProduto(search){
-        var page = this.page;
-        axios.get(cache.getString("api") + "/produtos/"+search+"/find", {auth: {username: cache.getString('login'), password: cache.getString('senha')}}).then(
-            result => {
-                if(result.status == 200) {
-
-                    var produto = result.data.produto;
-                    if(produto){
-                        var frameLoja = <Frame>page.getViewById('loja_frame');
-                        frameLoja.navigate({moduleName: "views/menu/tabs/loja/produto/produto-page", backstackVisible: false, context: { id_produto: produto.id_produto }});
-                        
-                        var tab = <TabView>page.getViewById('tabViewContainer');
-                        tab.selectedIndex = 3;
-
-                    } else {
-                        alert({title: "", message: "Produto não encontrado", okButtonText: ""});
-                    }
-
+        var produtos = storage.getItem('produtos') || [];
+        var produto = produtos.find(
+            (produto) => {
+                if(produto.id_produto == search){
+                    return true;
                 } else {
-                    this.redirectLogin(page);
-                }
-            },
-            error => {
-                alert(error.response.status);
-                if(error.response.status == 404 || error.response.status == 401){
-                    this.redirectLogin(page);
-                } else {
-                    alert({title: "", message: "Opps,Ocorreu alguma falha", okButtonText: ""});
+                    return false;
                 }
             });
+        if(produto) {
+            var tab = <TabView>this.page.getViewById('tabViewContainer');
+            tab.selectedIndex = 3;
+            var frameLoja = <Frame>this.page.getViewById('loja_frame');
+            frameLoja.navigate({moduleName: "views/menu/tabs/loja/produto/produto-page", backstackVisible: false, context: { id_produto: produto.id_produto }});
+        } else {
+            axios.get(cache.getString("api") + "/produtos/"+search+"/find", {auth: {username: cache.getString('login'), password: cache.getString('senha')}}).then(
+                result => {
+                    if(result.status == 200) {
+                        var produto = result.data.produto;
+                        if(produto){
+                            var tab = <TabView>this.page.getViewById('tabViewContainer');
+                            tab.selectedIndex = 3;
+                            var frameLoja = <Frame>this.page.getViewById('loja_frame');
+                            frameLoja.navigate({moduleName: "views/menu/tabs/loja/produto/produto-page", backstackVisible: false, context: { id_produto: produto.id_produto }});
+                        } else {
+                            alert({title: "", message: "Produto não encontrado", okButtonText: ""});
+                        }
+                    } else {
+                        this.redirectLogin(this.page);
+                    }
+                },
+                error => {
+                    alert(error.response.status);
+                    if(error.response.status == 404 || error.response.status == 401){
+                        this.redirectLogin(this.page);
+                    } else {
+                        alert({title: "", message: "Opps,Ocorreu alguma falha", okButtonText: ""});
+                    }
+                });
+        }
     }
 
     private redirectLogin(page){

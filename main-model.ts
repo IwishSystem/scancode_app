@@ -15,10 +15,10 @@ export class MainModel extends Observable {
 		if(api && url && login && senha){
 			this.default_page = 'views/menu/menu-page';
 		} else {
-			this.default_page = 'views/menu/menu-page';
+			this.default_page = 'views/login/login-page';
 		}
 
 	}
 
-
 }
+// http://scancode.com.br/app  app@app.com.br  123456
