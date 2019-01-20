@@ -2,7 +2,7 @@
 	<StackLayout class="m-x-10 m-t-5">
 		<Label text="Produtos " class="h1 font-weight-thin" />
 		<FlexboxLayout justifyContent="center" alignItems="center" class="h-full" flexDirection="column" visibility="{{ (!load && produtos.length==0) ? 'visible' : 'collapsed' }}">
-			<Label text="Nenhum produto encontrado" class="red" />
+			<Label text="Nenhum produto encontrado " class="red" />
 		</FlexboxLayout>
 		<FlexboxLayout justifyContent="center" alignItems="center" class="h-full" flexDirection="column" visibility="{{ (load) ? 'visible' : 'collapsed' }}">
 			<Label text="Carregando os produtos" class="red" />

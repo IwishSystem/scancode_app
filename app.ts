@@ -59,6 +59,10 @@ function historicoBg(value){
 	} 
 }
 
+function getBadeFrame(){
+	
+}
+
 application.setResources( { getIcon, concurrency, historicoItems, historicoBg, urlBefore });
 
 application.run({ moduleName: "main-root" });

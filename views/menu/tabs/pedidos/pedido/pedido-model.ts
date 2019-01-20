@@ -105,7 +105,7 @@ export class PedidoModel extends Observable {
             var sum = 0;
             this.pedido.pedido_itens.forEach(function(pedido_item){
                 if(pedido_item.estoque_atual_qtd){
-                    sum+=pedido_item.preco*pedido_item.estoque_atual_qtd;
+                    sum+= (pedido_item.preco*(100-pedido_item.desconto)/100) * pedido_item.estoque_atual_qtd;
                 }
             });
             this.set('preco_total_atual', sum);
@@ -114,12 +114,12 @@ export class PedidoModel extends Observable {
             this.set('preco_total_atual', 0);
         }
 
-        // preco total futuro
+        // preco total futuro http://192.168.0.19 app@app.com.br
         if(this.pedido.pedido_itens.length > 0) {
             var sum = 0;
             this.pedido.pedido_itens.forEach(function(pedido_item){
                 if(pedido_item.estoque_futuro_qtd){
-                    sum+=pedido_item.preco*pedido_item.estoque_futuro_qtd;
+                    sum+=(pedido_item.preco*(100-pedido_item.desconto)/100)*pedido_item.estoque_futuro_qtd;
                 }
             });
             this.set('preco_total_futuro', sum);

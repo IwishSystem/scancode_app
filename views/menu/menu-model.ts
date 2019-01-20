@@ -16,9 +16,12 @@ export class MenuModel extends Observable {
     public pedidos: string;
     public sacola: string;
     public loja: string;
+    public mais: string;
 
     public default_pedido_page: string;
 
+    public search: string;
+    public produtos_search: Array<Object>;
     public scan: string;
 
     public page: Page;
@@ -27,12 +30,15 @@ export class MenuModel extends Observable {
         super();
         this.page = page;
 
+        this.search = '';
         this.scan = '';
+        this.produtos_search = [];
 
         this.set("home", "res://home2");
         this.set("pedidos", 'res://pedido1');
         this.set("sacola", 'res://sacola1');
         this.set("loja", 'res://loja1');
+        this.set("mais", 'res://mais1');
 
         if(storage.getItem('pedido')){
             this.default_pedido_page = 'views/menu/tabs/pedidos/pedido/pedido-page';
@@ -46,7 +52,47 @@ export class MenuModel extends Observable {
             }
         }, this);
 
+        this.on(Observable.propertyChangeEvent, (propertyChangeData: PropertyChangeData) => {
+            if (propertyChangeData.propertyName === "search") {
+                this.searchChange();
+            }
+        }, this);
+
+
     }
+
+    public searchChange(){
+        var produtos = storage.getItem('produtos').filter((produto, index) => {
+            if (this.search != "") {
+                if (produto.codigo.toLowerCase().indexOf(this.search.toLowerCase()) != -1) {
+                    return true;
+                }
+                if (produto.descricao.toLowerCase().indexOf(this.search.toLowerCase()) != -1) {
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        produtos = produtos.slice(-3);
+
+        this.set('produtos_search', produtos);
+    }
+
+    public itemTapSearch(args){
+        var page = args.object.page;
+
+        var frame_loja = <Frame>page.getViewById('loja_frame');
+        var tabview = <TabView>page.getViewById('tabViewContainer');
+        var search_bar = page.getViewById('search_bar');
+
+
+        frame_loja.navigate({moduleName: "views/menu/tabs/loja/produto/produto-page", backstackVisible: false, context: { id_produto: args.view.bindingContext.id_produto }});
+        tabview.selectedIndex = 3;
+        search_bar.text = '';
+
+    }
+
     //K81163   http://scancode.com.br/app  app@app.com.br
     public loaded(){
         console.log('MENU LOADED!!');
@@ -60,12 +106,14 @@ export class MenuModel extends Observable {
             this.set("pedidos", 'res://pedido1');
             this.set("sacola", 'res://sacola1');
             this.set("loja", 'res://loja1');
+            this.set("mais", 'res://mais1');
 
             switch(args.newIndex){
                 case 0: this.set("home", "res://home2"); break;
                 case 1: this.set("pedidos", "res://pedido2"); break;
                 case 2: this.set("sacola", "res://sacola2"); this.sacolaSettings(args);  break;
                 case 3: this.set("loja", "res://loja2"); break;
+                case 4: this.set("mais", "res://mais2"); break;
             }
         }
 
@@ -135,6 +183,7 @@ export class MenuModel extends Observable {
     public loadedScan(args){
         var txt = args.object;
         txt.focus();
+        txt.dismissSoftInput();
     }
 
 
@@ -143,9 +192,6 @@ export class MenuModel extends Observable {
 
         var page_sacola = frame_sacola.currentPage;
         if(page_sacola){
-            var searchbar_reader = <SearchBar>page_sacola.getViewById('scan_bar_code');
-            //searchbar_reader.focus();
-            //searchbar_reader.dismissSoftInput();
 
             if(isAndroid){
                 var bindingContext = page_sacola.bindingContext;
