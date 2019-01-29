@@ -51,10 +51,12 @@ export class LojaModel extends Observable {
     }
 
     public axiosCategoriasRefresh(pullRefresh){
+        console.log(cache.getString('api')+'/categorias');
         axios.get(cache.getString('api')+'/categorias', {auth: {username: cache.getString('login'), password: cache.getString('senha')}}).then(
             (result) => {
                 pullRefresh.refreshing = false;
                 if(result.status == 200) {
+                    console.log(result.data.categorias);
                     storage.setItemObject('categorias', result.data.categorias);
                     this.set('categorias', result.data.categorias);
                 } else {

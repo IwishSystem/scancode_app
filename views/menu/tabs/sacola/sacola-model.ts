@@ -102,6 +102,8 @@ export class SacolaModel extends Observable {
 					const viewMode = listView.bindingContext;
 					viewModel.items.splice(viewModel.items.indexOf(args.object.bindingContext), 1);
 
+
+
 				} else {
 					this.redirectLogin(this.page);
 				}
@@ -117,3 +119,4 @@ export class SacolaModel extends Observable {
 	}
 
 }
+//http://192.168.0.19 app@app.com.br 123456

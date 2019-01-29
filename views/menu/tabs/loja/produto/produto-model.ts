@@ -14,6 +14,11 @@ export class ProdutoModel extends Observable {
     private id_produto: number;
     
     public produto;
+
+    public produtos_variacoes;
+    public produtos_variacoes_index;
+    public produto_variacao_selected;
+
     public pedido;
     public pedido_item;
     
@@ -61,13 +66,36 @@ export class ProdutoModel extends Observable {
 
     public loaded(args){
         var page = args.object.page;
-        //console.log(this.pedido);
         if(!this.produto){
-            //console.log('carregar produto');
+            console.log(cache.getString("api") +'/produtos/'+this.id_produto);
             axios.get(cache.getString("api") +'/produtos/'+this.id_produto, {auth: {username: cache.getString('login'), password: cache.getString('senha')}}).then(
                 result => {
                     if(result.status == 200) {
+                        //console.log(result.data.produtos_variacoes);
                         this.set('produto', result.data.produto);
+
+                        var produtos_variacoes_list = [];
+
+                        result.data.produtos_variacoes.forEach(
+                            (produto_variacao, index) => {
+                                produtos_variacoes_list.push({ data: produto_variacao, toString: () => { return produto_variacao.cor.descricao; } });
+                                if(this.produto.id_produto == produto_variacao.id_produto){
+                                    this.set('produtos_variacoes_index', index);
+                                }
+
+                       /* if(this.pedido.pedido_pagamento){
+                            if(this.pedido.pedido_pagamento.id_condicao_pagamento == pagamento.id_condicao_pagamento){
+                                this.set('index', index+1);
+                            }
+                        }*/
+                        
+                    });
+
+
+
+
+
+                        this.set('produtos_variacoes', produtos_variacoes_list);
                         this.set('preco', this.produto.preco);
                         this.set('preco_desconto', this.produto.preco);
                         this.set('multiplo', this.produto.multiplo);
@@ -177,7 +205,7 @@ export class ProdutoModel extends Observable {
     }
 
     public atualizar(args){
-       var page = args.object.page;
+        var page = args.object.page;
 
         var total_estoque = this.produto.produto_estoque.disponivel_atual+this.produto.produto_estoque.disponivel_futuro;
         if(this.pedido.id_status == 6 && total_estoque >= this.quantidade_inicio){
@@ -264,6 +292,12 @@ export class ProdutoModel extends Observable {
 
         let preco_desconto = preco*((100-this.desconto)/100);
         this.set('preco_desconto', preco_desconto);
+    }
+
+    public trocarCor(args){
+        topmost().navigate({moduleName: "views/menu/tabs/loja/produto/produto-page", backstackVisible: false, context: { id_produto: this.produto_variacao_selected.data.id_produto }});
+        console.log(this.produto_variacao_selected.data);
+        //console.log(this.produtos_variacoes[this.produtos_variacoes_index].data);
     }
 
 }

@@ -105,21 +105,47 @@ export class PedidoModel extends Observable {
             var sum = 0;
             this.pedido.pedido_itens.forEach(function(pedido_item){
                 if(pedido_item.estoque_atual_qtd){
-                    sum+= (pedido_item.preco*(100-pedido_item.desconto)/100) * pedido_item.estoque_atual_qtd;
+                    let desconto = 0;
+                    if(pedido_item.desconto){
+                        desconto = (pedido_item.desconto/100)*pedido_item.preco; 
+                    } else if(this.pedido.pedido_pagamento){
+                        desconto = (this.pedido.pedido_pagamento.desconto/100)*pedido_item.preco; 
+                    }
+
+                    let preco_desconto = pedido_item.preco-desconto;
+                    let ipi = (pedido_item.ipi/100)*preco_desconto;
+                    
+                    let preco_total =  pedido_item.preco-desconto+ipi;
+
+
+                    sum+= preco_total * pedido_item.estoque_atual_qtd;
                 }
-            });
+            }, this);
             this.set('preco_total_atual', sum);
         }
         else {
             this.set('preco_total_atual', 0);
         }
 
-        // preco total futuro http://192.168.0.19 app@app.com.br
+        // preco total futuro
         if(this.pedido.pedido_itens.length > 0) {
             var sum = 0;
             this.pedido.pedido_itens.forEach(function(pedido_item){
                 if(pedido_item.estoque_futuro_qtd){
-                    sum+=(pedido_item.preco*(100-pedido_item.desconto)/100)*pedido_item.estoque_futuro_qtd;
+                    let desconto = 0;
+                    if(pedido_item.desconto){
+                        desconto = (pedido_item.desconto/100)*pedido_item.preco; 
+                    } else if(this.pedido.pedido_pagamento){
+                        desconto = (this.pedido.pedido_pagamento.desconto/100)*pedido_item.preco; 
+                    }
+
+                    let preco_desconto = pedido_item.preco-desconto;
+                    let ipi = (pedido_item.ipi/100)*preco_desconto;
+                    
+                    let preco_total =  pedido_item.preco-desconto+ipi;
+
+
+                    sum+=preco_total*pedido_item.estoque_futuro_qtd;
                 }
             });
             this.set('preco_total_futuro', sum);

@@ -63,6 +63,10 @@
 							<Label text="{{ produto.produto_estoque.disponivel_atual }}" class="t-lg font-weight-thin" />
 						</StackLayout>
 					</DockLayout>
+					<StackLayout class="m-x-15" visibility="{{ (produtos_variacoes.length>0) ? 'visible' : 'collapsed' }}">
+						<ListPicker items="{{ produtos_variacoes }}" selectedIndex="{{ produtos_variacoes_index }}" selectedValue="{{ produto_variacao_selected }}" selectedIndexChange="{{ selectedIndexChanged }}"   />
+						<Button text="Trocar Cor" tap="{{ trocarCor }}" class="bg-green white t-md" />
+					</StackLayout>
 					<StackLayout visibility="{{ pedido ? 'visible' : 'collapsed' }}" class="m-y-10 m-x-10 form">
 						<TextView text="{{ observacao }}" class="input input-rounded t-sm" style="height:150" hint="Observação..." />
 					</StackLayout>
