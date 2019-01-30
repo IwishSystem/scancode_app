@@ -49,6 +49,8 @@
 				<Button class="black text-left font-weight-thin p-l-10 t-sm" style="background-color: #fff;margin: 0; padding-left: 20;" text="{{ transportadora }}" tap="{{ gotoPageTransportadora }}" />
 				<Label text="Observações" class="h2 font-weight-normal" />
 				<Button class="black text-left font-weight-thin p-l-10 p-r-20 t-sm" style="background-color: #fff; margin: 0; padding-left: 20;" text="{{ observacao }}" tap="{{ gotoPageObservacao }}" />
+				<Label text="Desconto do Pedido" class="h2 font-weight-normal" />
+				<Button class="black text-left font-weight-thin p-l-10 p-r-20 t-sm" style="background-color: #fff; margin: 0; padding-left: 20;" text="{{ desconto }}" tap="{{ showDescontoModal }}" />
 			</StackLayout>
 		</ScrollView>
 	</DockLayout>

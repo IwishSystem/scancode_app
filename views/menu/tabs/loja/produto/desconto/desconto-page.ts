@@ -5,6 +5,6 @@ import { DescontoModel } from "./desconto-model";
 export function onShownModally(args) {
 	const modal = args.object;
 	const context = args.context;
-    modal.bindingContext = new DescontoModel(context.desconto);
+    modal.bindingContext = new DescontoModel(context.desconto, context.desconto_max);
 }
 

@@ -16,6 +16,8 @@ export class PedidoModel extends Observable {
     public entrega: string;
     public transportadora: string;
     public observacao: string;
+    public desconto: string;
+
     public text_btn: string;
 
     public preco_total_atual: number;
@@ -93,6 +95,16 @@ export class PedidoModel extends Observable {
             this.set('pedido_pagamento', 'PAGAMENTO INDEFINIDO');
         }
 
+
+        // desconto do pedido
+         //observacao
+        if(this.pedido.desconto == null){
+            this.set('desconto', 'NENHUM');
+        } else {
+            this.set('desconto', this.pedido.desconto);
+        }
+
+
         // quantidade total
         var quantidade = 0;
         this.pedido.pedido_itens.forEach((pedido_item) => {
@@ -106,16 +118,21 @@ export class PedidoModel extends Observable {
             this.pedido.pedido_itens.forEach(function(pedido_item){
                 if(pedido_item.estoque_atual_qtd){
                     let desconto = 0;
-                    if(pedido_item.desconto){
+                    let acrescimo = 0;
+                    if(this.desconto){
+                        desconto = (this.desconto/100)*pedido_item.preco;
+                    } else if(pedido_item.desconto){
                         desconto = (pedido_item.desconto/100)*pedido_item.preco; 
                     } else if(this.pedido.pedido_pagamento){
                         desconto = (this.pedido.pedido_pagamento.desconto/100)*pedido_item.preco; 
+                        acrescimo = (this.pedido.pedido_pagamento.acrescimo/100)*pedido_item.preco; 
                     }
 
                     let preco_desconto = pedido_item.preco-desconto;
                     let ipi = (pedido_item.ipi/100)*preco_desconto;
                     
-                    let preco_total =  pedido_item.preco-desconto+ipi;
+
+                    let preco_total =  pedido_item.preco-desconto+ipi+acrescimo;
 
 
                     sum+= preco_total * pedido_item.estoque_atual_qtd;
@@ -133,16 +150,20 @@ export class PedidoModel extends Observable {
             this.pedido.pedido_itens.forEach(function(pedido_item){
                 if(pedido_item.estoque_futuro_qtd){
                     let desconto = 0;
-                    if(pedido_item.desconto){
+                    let acrescimo = 0;
+                    if(this.desconto){
+                        desconto = (this.desconto/100)*pedido_item.preco;
+                    } else if(pedido_item.desconto){
                         desconto = (pedido_item.desconto/100)*pedido_item.preco; 
                     } else if(this.pedido.pedido_pagamento){
                         desconto = (this.pedido.pedido_pagamento.desconto/100)*pedido_item.preco; 
+                        acrescimo = (this.pedido.pedido_pagamento.acrescimo/100)*pedido_item.preco; 
                     }
 
                     let preco_desconto = pedido_item.preco-desconto;
                     let ipi = (pedido_item.ipi/100)*preco_desconto;
                     
-                    let preco_total =  pedido_item.preco-desconto+ipi;
+                    let preco_total =  pedido_item.preco-desconto+ipi+acrescimo;
 
 
                     sum+=preco_total*pedido_item.estoque_futuro_qtd;
@@ -292,6 +313,40 @@ export class PedidoModel extends Observable {
         if(this.pedido.id_status == 6) {
             topmost().navigate("views/menu/tabs/pedidos/pedido/observacao/observacao-page");
         }
+    }
+
+    public showDescontoModal(args){
+        let desconto = 0;
+        if(this.desconto != 'NENHUM'){
+            desconto = Number(this.desconto);
+        }
+        args.object.showModal("views/menu/tabs/loja/produto/desconto/desconto-page", {desconto: desconto, desconto_max: 100},
+            (desconto) => {
+                if(desconto){  
+                    this.salvarDesconto(args, desconto);
+                }
+            });
+    }
+
+    private salvarDesconto (args, desconto) {
+        var page = args.object.page;
+        axios.patch(cache.getString("api") + "/pedidos/"+this.pedido.id_pedido+"/update",{desconto: desconto}, {auth: {username: cache.getString('login'), password: cache.getString('senha')}}).then(
+            result => {
+                if(result.status == 200) {
+                    storage.setItemObject('pedido', result.data.pedido);
+                    this.update();
+                    alert('Desconto Atualizado');
+                } else {
+                    this.redirectLogin(page);
+                }
+            },
+            error => {
+                if(error.response.status == 404 || error.response.status == 401){
+                    this.redirectLogin(page);
+                } else {
+                    alert({title: "", message: "Opps,Ocorreu alguma falha", okButtonText: ""});
+                }
+            });
     }
 
     private finalizarPedido(args){ 
