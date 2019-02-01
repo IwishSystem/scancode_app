@@ -60,3 +60,4 @@ export class ClienteDetalheModel extends Observable {
     }
 
 }
+// http://192.168.0.19 app@app.com.br

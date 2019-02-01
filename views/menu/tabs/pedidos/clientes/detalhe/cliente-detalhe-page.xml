@@ -29,6 +29,11 @@
 						<StackLayout class="hr-light"></StackLayout>
 					</StackLayout>
 					<StackLayout class="input-field">
+						<Label text="Status" class="label font-weight-bold m-b-5" />
+						<TextField class="input" text="{{ cliente.cliente_status.descricao }}" editable="false" />
+						<StackLayout class="hr-light"></StackLayout>
+					</StackLayout>
+					<StackLayout class="input-field">
 						<Label text="Incscrição Estadual" class="label font-weight-bold m-b-5" />
 						<TextField class="input" text="{{ cliente.inscricao_estadual }}" editable="false" />
 						<StackLayout class="hr-light"></StackLayout>

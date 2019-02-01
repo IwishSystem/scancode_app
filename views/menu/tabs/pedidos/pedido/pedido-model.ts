@@ -23,6 +23,7 @@ export class PedidoModel extends Observable {
     public preco_total_atual: number;
     public preco_total_futuro: number;
     public preco_total: number;
+    public preco_total_minimo: number;
     public quantidade_total: number;
 
     public bg: string;
@@ -97,7 +98,7 @@ export class PedidoModel extends Observable {
 
 
         // desconto do pedido
-         //observacao
+        //observacao
         if(this.pedido.desconto == null){
             this.set('desconto', 'NENHUM');
         } else {
@@ -106,6 +107,7 @@ export class PedidoModel extends Observable {
 
 
         // quantidade total
+        let preco_total_minimo = 0;
         var quantidade = 0;
         this.pedido.pedido_itens.forEach((pedido_item) => {
             quantidade += pedido_item.quantidade;
@@ -119,8 +121,8 @@ export class PedidoModel extends Observable {
                 if(pedido_item.estoque_atual_qtd){
                     let desconto = 0;
                     let acrescimo = 0;
-                    if(this.desconto){
-                        desconto = (this.desconto/100)*pedido_item.preco;
+                    if(this.pedido.desconto){
+                        desconto = (this.pedido.desconto/100)*pedido_item.preco;
                     } else if(pedido_item.desconto){
                         desconto = (pedido_item.desconto/100)*pedido_item.preco; 
                     } else if(this.pedido.pedido_pagamento){
@@ -134,6 +136,7 @@ export class PedidoModel extends Observable {
 
                     let preco_total =  pedido_item.preco-desconto+ipi+acrescimo;
 
+                    preco_total_minimo+= (pedido_item.preco+ipi+acrescimo)*pedido_item.estoque_atual_qtd;
 
                     sum+= preco_total * pedido_item.estoque_atual_qtd;
                 }
@@ -144,15 +147,15 @@ export class PedidoModel extends Observable {
             this.set('preco_total_atual', 0);
         }
 
-        // preco total futuro
+        // preco total futuro http://192.168.0.19   app@app.com.br
         if(this.pedido.pedido_itens.length > 0) {
             var sum = 0;
             this.pedido.pedido_itens.forEach(function(pedido_item){
                 if(pedido_item.estoque_futuro_qtd){
                     let desconto = 0;
                     let acrescimo = 0;
-                    if(this.desconto){
-                        desconto = (this.desconto/100)*pedido_item.preco;
+                    if(this.pedido.desconto){
+                        desconto = (this.pedido.desconto/100)*pedido_item.preco;
                     } else if(pedido_item.desconto){
                         desconto = (pedido_item.desconto/100)*pedido_item.preco; 
                     } else if(this.pedido.pedido_pagamento){
@@ -164,7 +167,7 @@ export class PedidoModel extends Observable {
                     let ipi = (pedido_item.ipi/100)*preco_desconto;
                     
                     let preco_total =  pedido_item.preco-desconto+ipi+acrescimo;
-
+                    preco_total_minimo+= (pedido_item.preco+ipi+acrescimo)*pedido_item.estoque_atual_qtd;
 
                     sum+=preco_total*pedido_item.estoque_futuro_qtd;
                 }
@@ -176,6 +179,7 @@ export class PedidoModel extends Observable {
         }
 
         // preco total
+        this.set('preco_total_minimo', preco_total_minimo);
         this.set('preco_total', this.preco_total_atual+this.preco_total_futuro);
 
         // text btn
@@ -352,7 +356,11 @@ export class PedidoModel extends Observable {
     private finalizarPedido(args){ 
         if(this.pedido.id_status == 6) {
             if(this.pedido.pedido_pagamento != null){
-                topmost().navigate("views/menu/tabs/pedidos/pedido/assinatura/assinatura-page");
+                if(this.pedido.pedido_pagamento.condicao_pagamento.valor_minimo > this.preco_total_minimo){
+                    alert({title: "", message: "Valor minimo para esta forma de pagamento é R$"+this.pedido.pedido_pagamento.condicao_pagamento.valor_minimo, okButtonText: ""});
+                } else {
+                    topmost().navigate("views/menu/tabs/pedidos/pedido/assinatura/assinatura-page");
+                }
             } else {
                 alert({title: "", message: "Pagmento indefinido", okButtonText: ""});
             }
