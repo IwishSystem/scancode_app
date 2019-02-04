@@ -4,7 +4,7 @@ import { topmost } from "tns-core-modules/ui/frame";
 import * as cache from "tns-core-modules/application-settings";
 import axios from "axios";
 import * as storage from "nativescript-localstorage";
-
+ 
 
 export class ClientesModel extends Observable {
 

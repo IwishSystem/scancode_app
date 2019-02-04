@@ -1,15 +1,23 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd"  class="page" navigatingTo="navigatingTo" id="page_menu" loaded="{{ loaded }}" >
 	<Page.actionBar>
-		<ActionBar class="bg-red">
+		<!--<ActionBar class="bg-red">
 			<StackLayout style="width:90%;">
-                <SearchBar text="{{ search }}" class="white" id="search_bar" />
-                <TextView id="scan" text="{{ scan }}" focus="true" loaded="{{ loadedScan }}" style="height:0" />
+                <SearchBar text="{{ search }}" class="white" id="search_bar" submit="{{ scanUpdateSearch }}" />
+                <TextView id="scan" text="{{ scan }}" loaded="{{ loadedScan }}" style="height:0" />
             </StackLayout>
         </ActionBar>
-    </Page.actionBar>
+    </Page.actionBar>-->
+
+
+    <StackLayout>
+      <Label text="fdsdddd" />
+    </StackLayout>
+
+<!-- 
     <GridLayout class="bg-gray">
         <StackLayout row="0" col="0">
-           <TabView id="tabViewContainer" androidTabsPosition="bottom" selectedIndexChanged="{{ changed }}" tabBackgroundColor="white" selectedTabTextColor="#ee3344">
+          <Label text="fdsd" />
+          <TabView id="tabViewContainer" androidTabsPosition="bottom" selectedIndexChanged="{{ changed }}" tabBackgroundColor="white" selectedTabTextColor="#ee3344">
              <TabViewItem title="Home" iconSource="{{ home }}">
               <Frame defaultPage="views/menu/tabs/home/home-page" id="home_frame" />
           </TabViewItem>
@@ -27,7 +35,7 @@
           </TabViewItem>
       </TabView>
   </StackLayout>
-  <StackLayout row="0" col="0" >
+  <StackLayout row="1" col="0" >
     <ListView items="{{ produtos_search }}" itemTap="{{ itemTapSearch }}" separatorColor="transparent" class="list-group bg-white">
         <ListView.itemTemplate>
             <StackLayout class="border-b p-10">
@@ -37,5 +45,5 @@
         </ListView.itemTemplate>
     </ListView>
 </StackLayout>
-</GridLayout>
+</GridLayout>-->
 </Page>

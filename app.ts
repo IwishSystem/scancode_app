@@ -2,6 +2,9 @@
 import {displayedEvent, launchEvent, resumeEvent, suspendEvent, ApplicationEventData, LaunchEventData, AndroidActivityBackPressedEventData} from "tns-core-modules/application";
 import * as application from "tns-core-modules/application";
 import * as cache from "tns-core-modules/application-settings";
+import * as utils from "utils/utils";
+import { isIOS, isAndroid } from "platform";
+import * as frame from "ui/frame";
 
 application.on(launchEvent, (args: LaunchEventData) => {});
 application.on(displayedEvent, (args: ApplicationEventData) => {});
@@ -49,6 +52,9 @@ function historicoItems(value){
 	}
 }
 
+
+
+
 function historicoBg(value){
 	if(value == 1 || value == 6){
 		return 'green';
@@ -59,10 +65,16 @@ function historicoBg(value){
 	} 
 }
 
-function getBadeFrame(){
-	
+function hideKeybaord(){
+	//console.log('esconder teclado');
+	if (isIOS) {
+		frame.topmost().nativeView.endEditing(true);
+	}
+	if (isAndroid) {
+		utils.ad.dismissSoftInput();
+	}
 }
 
-application.setResources( { getIcon, concurrency, historicoItems, historicoBg, urlBefore });
+application.setResources( { getIcon, concurrency, historicoItems, historicoBg, urlBefore, hideKeybaord });
 
 application.run({ moduleName: "main-root" });

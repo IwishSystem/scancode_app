@@ -11,7 +11,7 @@
         </StackLayout>
         <StackLayout class="input-field">
             <Label text="Senha" class="label font-weight-bold m-b-5" />
-            <TextField class="input t-md" text="{{ senha }}" secure="true" />
+            <TextField class="input t-md" text="{{ senha }}" secure="true" id="senha" />
             <StackLayout class="hr-light"></StackLayout>
         </StackLayout>
     </StackLayout>

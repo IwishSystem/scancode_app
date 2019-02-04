@@ -8,6 +8,7 @@ import {SearchBar} from "ui/search-bar";
 import {TextView} from "ui/text-view";
 import axios from "axios";
 import * as cache from "tns-core-modules/application-settings";
+import * as application from "tns-core-modules/application";
 
 
 export class MenuModel extends Observable {
@@ -31,7 +32,7 @@ export class MenuModel extends Observable {
         this.page = page;
 
         this.search = '';
-        this.scan = '';
+        //this.scan = '';
         this.produtos_search = [];
 
         this.set("home", "res://home2");
@@ -60,6 +61,22 @@ export class MenuModel extends Observable {
 
 
     }
+
+
+    public loadedScan(args){
+        //console.log('FOCUS SCAN!!');
+        var txt = args.object;
+        txt.focus();
+
+        setTimeout(function(){ 
+            //txt.dismissSoftInput();
+            var applicationResources = application.getResources();
+            var hide = applicationResources.hideKeybaord;
+            hide();
+        }, 100);
+        
+    }
+
 
     public searchChange(){
         var produtos = storage.getItem('produtos').filter((produto, index) => {
@@ -93,10 +110,13 @@ export class MenuModel extends Observable {
 
     }
 
-    //K81163   http://scancode.com.br/app  app@app.com.br
-    public loaded(){
-        console.log('MENU LOADED!!');
+
+    public loaded(args){
+        //console.log('MENU LOADED!!');
+        //this.loadedScan({object:args.object.getViewById('scan')});
+        //console.log(args.object);
     }
+
 
     public changed(args) {
         if (args.oldIndex !== -1) {
@@ -116,6 +136,19 @@ export class MenuModel extends Observable {
                 case 4: this.set("mais", "res://mais2"); break;
             }
         }
+
+    }
+
+
+    public scanUpdateSearch(args){
+        let search = this.search;
+        this.set('search', '');
+        this.searchProduto(search);
+
+        let page = args.object.page;
+        let scan_txt = page.getViewById('scan');
+        scan_txt.focus();
+        scan_txt.dismissSoftInput();
 
     }
 
@@ -180,11 +213,6 @@ export class MenuModel extends Observable {
         frame.navigate({moduleName: "views/login/login-page", clearHistory: true});
     }
 
-    public loadedScan(args){
-        var txt = args.object;
-        txt.focus();
-        txt.dismissSoftInput();
-    }
 
 
     public sacolaSettings(args){

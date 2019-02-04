@@ -17,12 +17,16 @@ export class LoginModel extends Observable {
 
     public auth(args) {
         var frame = args.object.page.frame;
+
         axios.get(cache.getString('api')+'/representantes/login', {auth: {username: this.login, password: this.senha}}).then(
             (result) => {
                 if(result.status == 200){
                     cache.setString('login', this.login);
                     cache.setString('senha', this.senha);
                     cache.setNumber('id_representante', result.data.representante.id_representante);
+                    let txt_senha = frame.getViewById('senha');
+                    txt_senha.focus();
+                    txt_senha.dismissSoftInput();
                     frame.navigate({moduleName: "views/menu/menu-page", clearHistory: true});
                 } else {
                     alert({title: "", message: "Configure a URL", okButtonText: ""});

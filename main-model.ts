@@ -21,4 +21,3 @@ export class MainModel extends Observable {
 	}
 
 }
-// http://scancode.com.br/app  app@app.com.br  123456

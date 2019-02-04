@@ -121,12 +121,18 @@ export class PedidoModel extends Observable {
                 if(pedido_item.estoque_atual_qtd){
                     let desconto = 0;
                     let acrescimo = 0;
-                    if(this.pedido.desconto){
-                        desconto = (this.pedido.desconto/100)*pedido_item.preco;
-                    } else if(pedido_item.desconto){
-                        desconto = (pedido_item.desconto/100)*pedido_item.preco; 
-                    } else if(this.pedido.pedido_pagamento){
-                        desconto = (this.pedido.pedido_pagamento.desconto/100)*pedido_item.preco; 
+
+                    if(!pedido_item.produto.desconto_bloquear){
+                        if(pedido_item.desconto){
+                            desconto = (pedido_item.desconto/100)*pedido_item.preco; 
+                        } else if(this.pedido.desconto){
+                            desconto = (this.pedido.desconto/100)*pedido_item.preco;
+                        } else if(this.pedido.pedido_pagamento){
+                            desconto = (this.pedido.pedido_pagamento.desconto/100)*pedido_item.preco; 
+                        }
+                    }
+
+                    if(this.pedido.pedido_pagamento){
                         acrescimo = (this.pedido.pedido_pagamento.acrescimo/100)*pedido_item.preco; 
                     }
 
@@ -147,19 +153,24 @@ export class PedidoModel extends Observable {
             this.set('preco_total_atual', 0);
         }
 
-        // preco total futuro http://192.168.0.19   app@app.com.br
+        // preco total futuro
         if(this.pedido.pedido_itens.length > 0) {
             var sum = 0;
             this.pedido.pedido_itens.forEach(function(pedido_item){
                 if(pedido_item.estoque_futuro_qtd){
                     let desconto = 0;
                     let acrescimo = 0;
-                    if(this.pedido.desconto){
-                        desconto = (this.pedido.desconto/100)*pedido_item.preco;
-                    } else if(pedido_item.desconto){
-                        desconto = (pedido_item.desconto/100)*pedido_item.preco; 
-                    } else if(this.pedido.pedido_pagamento){
-                        desconto = (this.pedido.pedido_pagamento.desconto/100)*pedido_item.preco; 
+                    if(!pedido_item.produto.desconto_bloquear){
+                        if(pedido_item.desconto){
+                            desconto = (pedido_item.desconto/100)*pedido_item.preco; 
+                        } else if(this.pedido.desconto){
+                            desconto = (this.pedido.desconto/100)*pedido_item.preco;
+                        }  else if(this.pedido.pedido_pagamento){
+                            desconto = (this.pedido.pedido_pagamento.desconto/100)*pedido_item.preco; 
+                        }
+                    }
+
+                    if(this.pedido.pedido_pagamento){
                         acrescimo = (this.pedido.pedido_pagamento.acrescimo/100)*pedido_item.preco; 
                     }
 
@@ -310,7 +321,7 @@ export class PedidoModel extends Observable {
     }
     public gotoPageTransportadora(){
         if(this.pedido.id_status == 6) {
-            topmost().navigate("views/menu/tabs/pedidos/pedido/transportadora/transportadora-page");
+            topmost().navigate({moduleName: "views/menu/tabs/pedidos/pedido/transportadora/transportadora-page", backstackVisible: false});
         }
     }
     public gotoPageObservacao(){
@@ -324,6 +335,9 @@ export class PedidoModel extends Observable {
         if(this.desconto != 'NENHUM'){
             desconto = Number(this.desconto);
         }
+
+
+
         args.object.showModal("views/menu/tabs/loja/produto/desconto/desconto-page", {desconto: desconto, desconto_max: 100},
             (desconto) => {
                 if(desconto){  

@@ -268,7 +268,12 @@ export class ProdutoModel extends Observable {
     }
 
     public showDescontoModal(args){
-        args.object.showModal("views/menu/tabs/loja/produto/desconto/desconto-page", {desconto: this.desconto, desconto_max: this.produto.desconto_max},
+        let desconto_max = this.produto.desconto_max;
+        if(this.produto.desconto_bloquear){
+            desconto_max = 0;
+        }
+
+        args.object.showModal("views/menu/tabs/loja/produto/desconto/desconto-page", {desconto: this.desconto, desconto_max: desconto_max},
             (desconto) => {
                 if(desconto){  
                     this.set('desconto', desconto);

@@ -32,7 +32,7 @@ export class HostModel extends Observable {
                 }
             },
             (error) => {
-                console.log('confirm error'+ error.response.status);
+                //console.log('confirm error'+ error.response.status);
                 if(error.response.status == 404){
                     alert({title: "", message: "Servidor não encontrado", okButtonText: ""});
                 } else {

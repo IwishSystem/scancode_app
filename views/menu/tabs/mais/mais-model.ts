@@ -8,7 +8,10 @@ export class MaisModel extends Observable {
 	}
 
 	public sair(args){
-		cache.clear();
+
+			cache.remove("login");
+			cache.remove("senha");
+
 		const page = args.object.page;
 		const frame = page.parent.parent.parent.parent.parent.parent.frame;
 		frame.navigate({moduleName: "views/login/login-page", clearHistory: true});		

@@ -15,7 +15,11 @@ export class DescontoModel extends Observable {
         const desconto = Number(this.desconto);
         if(Number.isInteger(desconto)){
             if(this.desconto_max < this.desconto){
-                alert({title: "", message: "Desconto acime do permitido", okButtonText: ""});    
+                if(this.desconto_max == 0){
+                    alert({title: "", message: "Desconto bloqueado", okButtonText: ""});  
+                } else {
+                    alert({title: "", message: "Desconto acima do permitido", okButtonText: ""});   
+                } 
             } else {
                 args.object.closeModal(this.desconto);
             }
