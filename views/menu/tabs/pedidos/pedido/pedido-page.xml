@@ -18,7 +18,7 @@
 					<Label text="ITENS: " class="font-weight-normal t-md"  />
 					<Label text="{{ quantidade_total }}" class="font-weight-thin t-md"  />
 				</FlexboxLayout>
-			</DockLayout>
+			</DockLayout> 
 			<DockLayout>
 				<StackLayout orientation="horizontal" dock="left">
 					<Button text="{{ '0xe90f' | getIcon }}" class="icon bg-green white"  style="width:50; font-size: 27; padding:2; margin: 0; margin-bottom: 5;"  tap="{{ ativarCamera }}" visibility="{{ (pedido.id_status==6) ? 'visible' : 'collapsed' }}" />

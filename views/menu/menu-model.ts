@@ -91,7 +91,7 @@ export class MenuModel extends Observable {
             return false;
         });
 
-        produtos = produtos.slice(-3);
+        //produtos = produtos.slice(-3);
 
         this.set('produtos_search', produtos);
     }
@@ -229,3 +229,4 @@ export class MenuModel extends Observable {
     }
 
 }
+// http://192.168.43.157  app@app.com.br 123456

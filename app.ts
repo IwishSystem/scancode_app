@@ -1,4 +1,4 @@
-﻿// http://scancode.com.br/app  app@app.com.br 123456
+// http://scancode.com.br/app  app@app.com.br 123456
 import {displayedEvent, launchEvent, resumeEvent, suspendEvent, ApplicationEventData, LaunchEventData, AndroidActivityBackPressedEventData} from "tns-core-modules/application";
 import * as application from "tns-core-modules/application";
 import * as cache from "tns-core-modules/application-settings";
@@ -78,3 +78,4 @@ function hideKeybaord(){
 application.setResources( { getIcon, concurrency, historicoItems, historicoBg, urlBefore, hideKeybaord });
 
 application.run({ moduleName: "main-root" });
+// http://192.168.0.19  app@app.com.br 123456  K80198

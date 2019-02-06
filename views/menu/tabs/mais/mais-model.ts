@@ -1,5 +1,6 @@
 import { Observable} from "tns-core-modules/data/observable";
 import * as cache from "tns-core-modules/application-settings";
+import * as storage from "nativescript-localstorage";
 
 export class MaisModel extends Observable {
 
@@ -9,8 +10,10 @@ export class MaisModel extends Observable {
 
 	public sair(args){
 
-			cache.remove("login");
-			cache.remove("senha");
+		cache.remove("login");
+		cache.remove("senha");
+		storage.clear();
+		
 
 		const page = args.object.page;
 		const frame = page.parent.parent.parent.parent.parent.parent.frame;

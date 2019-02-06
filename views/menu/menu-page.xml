@@ -1,22 +1,21 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd"  class="page" navigatingTo="navigatingTo" id="page_menu" loaded="{{ loaded }}" >
 	<Page.actionBar>
-		<!--<ActionBar class="bg-red">
+		<ActionBar class="bg-red">
 			<StackLayout style="width:90%;">
                 <SearchBar text="{{ search }}" class="white" id="search_bar" submit="{{ scanUpdateSearch }}" />
                 <TextView id="scan" text="{{ scan }}" loaded="{{ loadedScan }}" style="height:0" />
             </StackLayout>
         </ActionBar>
-    </Page.actionBar>-->
+    </Page.actionBar>
 
-
+<!--
     <StackLayout>
       <Label text="fdsdddd" />
     </StackLayout>
+-->
 
-<!-- 
     <GridLayout class="bg-gray">
         <StackLayout row="0" col="0">
-          <Label text="fdsd" />
           <TabView id="tabViewContainer" androidTabsPosition="bottom" selectedIndexChanged="{{ changed }}" tabBackgroundColor="white" selectedTabTextColor="#ee3344">
              <TabViewItem title="Home" iconSource="{{ home }}">
               <Frame defaultPage="views/menu/tabs/home/home-page" id="home_frame" />
@@ -45,5 +44,5 @@
         </ListView.itemTemplate>
     </ListView>
 </StackLayout>
-</GridLayout>-->
+</GridLayout>
 </Page>

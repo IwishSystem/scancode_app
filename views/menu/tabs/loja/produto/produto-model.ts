@@ -10,7 +10,7 @@ import { prompt, PromptOptions, PromptResult } from "ui/dialogs";
 export class ProdutoModel extends Observable {
 
     public url: string;
-    
+
     private id_produto: number;
     
     public produto;
@@ -71,7 +71,8 @@ export class ProdutoModel extends Observable {
             axios.get(cache.getString("api") +'/produtos/'+this.id_produto, {auth: {username: cache.getString('login'), password: cache.getString('senha')}}).then(
                 result => {
                     if(result.status == 200) {
-                        //console.log(result.data.produtos_variacoes);
+                        //console.log(result.data.produto);
+                        console.log(result.data.produtos_variacoes);
                         this.set('produto', result.data.produto);
 
                         var produtos_variacoes_list = [];
@@ -82,13 +83,6 @@ export class ProdutoModel extends Observable {
                                 if(this.produto.id_produto == produto_variacao.id_produto){
                                     this.set('produtos_variacoes_index', index);
                                 }
-
-                       /* if(this.pedido.pedido_pagamento){
-                            if(this.pedido.pedido_pagamento.id_condicao_pagamento == pagamento.id_condicao_pagamento){
-                                this.set('index', index+1);
-                            }
-                        }*/
-                        
                     });
 
 
@@ -189,6 +183,7 @@ export class ProdutoModel extends Observable {
     }
 
     public adicionar(){
+        console.log(this.quantidade+this.multiplo+' <= '+this.quantidade_maxima)
         if( (this.quantidade+this.multiplo)  <= this.quantidade_maxima){
             this.set('quantidade', this.quantidade+this.multiplo);
         } else {

@@ -69,6 +69,9 @@ export class ClientesModel extends Observable {
                         return true;
                     }
                 }
+                if (cliente.id_cliente.toString().indexOf(this.search) != -1) {
+                        return true;
+                }
             }
             return false;
         });
@@ -90,3 +93,4 @@ export class ClientesModel extends Observable {
 
 
 }
+// http://192.168.43.157 app@app.com.br 123456
